@@ -49,7 +49,7 @@ export class AuthService {
 
       return {
         id: newUser['_id'],
-        userName: newUser.username,
+        username: newUser.username,
         access_token: this.jwtService.sign({ id: newUser['_id'] }),
       };
     } catch (err) {
@@ -73,7 +73,7 @@ export class AuthService {
 
     return {
       id: user['_id'],
-      userName: user.username,
+      username: user.username,
       access_token: this.jwtService.sign({ id: user['_id'] }),
     };
   }
