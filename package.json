@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "concurrently": "^7.4.0"
+  },
+  "name": "chat-room",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "install-backend": "npm install --prefix backend",
+    "install-frontend": "npm install --prefix frontend",
+    "install": "npm run install-backend && npm run install-frontend",
+    "backend": "npm run start:dev --prefix backend",
+    "frontend": "npm start --prefix frontend",
+    "watch": "concurrently \"npm run backend\"  \"npm run frontend\"",
+    "deploy": "npm run build --prefix frontend && npm start --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RickSanchez7/chat-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RickSanchez7/chat-app/issues"
+  },
+  "homepage": "https://github.com/RickSanchez7/chat-app#readme",
+  "description": ""
+}
