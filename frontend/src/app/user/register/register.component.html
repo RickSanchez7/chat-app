@@ -1,23 +1,41 @@
-<form action="">
+<app-alert *ngIf="showAlert" [color]="alertColor">
+  {{ alertMsg }}
+</app-alert>
+
+<form [formGroup]="registerForm">
   <!-- Name -->
   <div>
     <label>Name</label>
-    <input type="text" placeholder="Enter your name" />
+    <app-input [control]="name" placeholder="Enter your name"></app-input>
   </div>
   <!-- Email -->
   <div>
-    <label>email</label>
-    <input type="email" placeholder="Enter your email" />
+    <label>Email</label>
+    <app-input
+      [control]="email"
+      type="email"
+      placeholder="Enter your email"
+    ></app-input>
   </div>
   <!-- Password -->
   <div>
     <label>Password</label>
-    <input type="password" placeholder="Enter your password" />
+    <app-input
+      [control]="password"
+      type="password"
+      placeholder="Enter your password"
+    ></app-input>
   </div>
   <!-- Confirm Password -->
   <div>
     <label>Confirm Password</label>
-    <input type="password" placeholder="Confirm your password" />
+    <app-input
+      [control]="confirm_password"
+      type="password"
+      placeholder="Confirm your password"
+    ></app-input>
   </div>
-  <button type="submit">Submit</button>
+  <button type="button" (click)="register()" [disabled]="registerForm.invalid">
+    Submit
+  </button>
 </form>

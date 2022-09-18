@@ -1,0 +1,21 @@
+<input [formControl]="control" [type]="type" [placeholder]="placeholder" />
+<button mat-icon-button *ngIf="type === 'password'">
+  <mat-icon (click)="hide = !hide">{{
+    hide ? "visibility_off" : "visibility"
+  }}</mat-icon>
+</button>
+<ng-container *ngIf="control.touched && control.dirty">
+  <p *ngIf="control.errors?.pattern">
+    Passwords must be at least 8 characters long, have 1 uppercase letter, 1
+    lowercase letter and 1 number
+  </p>
+  <p *ngIf="control.errors?.required">Field is required</p>
+  <p *ngIf="control.errors?.minlength">
+    The value you inputted is
+    {{ control.errors?.minlength.actualLength }}
+    characters long. It must be at least
+    {{ control.errors?.minlength.requiredLength }}
+    characters long.
+  </p>
+  <p *ngIf="control.errors?.email">You must enter a valid email.</p>
+</ng-container>
