@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -23,17 +24,25 @@ export class RegisterComponent {
   alertColor = 'blue';
 
   registerForm = new FormGroup({
-    name: this.name,
+    username: this.name,
     email: this.email,
     password: this.password,
     confirm_password: this.confirm_password,
   });
 
-  register() {
-    console.log('eyyy');
+  constructor(private authService: AuthService) {}
 
+  register() {
     this.showAlert = true;
     this.alertMsg = 'Please wait! Your account is being created.';
     this.alertColor = 'blue';
+
+    console.log(this.registerForm.value);
+
+    this.authService.signup(this.registerForm.value).subscribe({
+      next: (a) => {
+        console.log('eyyy', a);
+      },
+    });
   }
 }
