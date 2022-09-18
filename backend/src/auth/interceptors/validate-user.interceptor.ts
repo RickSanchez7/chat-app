@@ -7,7 +7,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { JwtService, JwtVerifyOptions } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class ValidateUserInterceptor implements NestInterceptor {
@@ -20,14 +20,16 @@ export class ValidateUserInterceptor implements NestInterceptor {
     try {
       const request = context.switchToHttp().getRequest();
 
-      const token = request.headers['authorization'].split(' ')[1];
+      const token = request.headers['authorization'];
       console.log(token);
 
       if (!token) {
         throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
       }
 
-      this.jwtService.verify(token, {
+      const BearerToken = token.split(' ')[1];
+
+      this.jwtService.verify(BearerToken, {
         secret: process.env.JWT_SECRET,
       });
 

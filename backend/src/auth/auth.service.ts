@@ -29,27 +29,33 @@ export class AuthService {
     return null;
   }
 
-  async signup(userName: string, email: string, password: string) {
-    // try {
+  async signup(username: string, email: string, password: string) {
     const hasUser = await this.usersService.findOne(email);
 
     if (hasUser) {
       throw new BadRequestException('user already exists');
     }
 
-    const hashedPassword = await this.hashPassword(password);
+    try {
+      const hashedPassword = await this.hashPassword(password);
 
-    const newUser = new this.userModel({
-      userName,
-      email,
-      password: hashedPassword,
-    });
+      const newUser = new this.userModel({
+        username,
+        email,
+        password: hashedPassword,
+      });
 
-    newUser.save();
-    // } catch (err) {
-    //   console.error('err', err);
-    //   throw new HttpException('Error creating user', HttpStatus.BAD_REQUEST);
-    // }
+      newUser.save();
+
+      return {
+        id: newUser['_id'],
+        userName: newUser.username,
+        access_token: this.jwtService.sign({ id: newUser['_id'] }),
+      };
+    } catch (err) {
+      console.error('err', err);
+      throw new HttpException('Error creating user', HttpStatus.BAD_REQUEST);
+    }
   }
 
   async login(email: string, password: string) {
@@ -59,13 +65,15 @@ export class AuthService {
       throw new BadRequestException('Incorrect email or password');
     }
 
-    const verifyPass = await compare(password, user.password);
+    const isPasswordValid = await compare(password, user.password);
 
-    if (!verifyPass) {
+    if (!isPasswordValid) {
       throw new BadRequestException('Incorrect email or password');
     }
 
     return {
+      id: user['_id'],
+      userName: user.username,
       access_token: this.jwtService.sign({ id: user['_id'] }),
     };
   }
