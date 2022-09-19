@@ -1,4 +1,8 @@
-<input [formControl]="control" [type]="type" [placeholder]="placeholder" />
+<input
+  [formControl]="control"
+  [type]="type !== 'password' ? type : hide ? type : 'text'"
+  [placeholder]="placeholder"
+/>
 <button mat-icon-button *ngIf="type === 'password'">
   <mat-icon (click)="hide = !hide">{{
     hide ? "visibility_off" : "visibility"

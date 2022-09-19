@@ -21,7 +21,6 @@ export class ValidateUserInterceptor implements NestInterceptor {
       const request = context.switchToHttp().getRequest();
 
       const token = request.headers['authorization'];
-      console.log(token);
 
       if (!token) {
         throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);

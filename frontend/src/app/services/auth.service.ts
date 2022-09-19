@@ -22,6 +22,7 @@ interface SignupResponse {
 export class AuthService {
   rootUrl: string = 'http://localhost:3000';
   signedIn$ = new BehaviorSubject<null | boolean>(null);
+  access_token = '';
 
   constructor(private http: HttpClient) {}
 
@@ -29,11 +30,18 @@ export class AuthService {
     return this.http
       .post<SignupResponse>(`${this.rootUrl}/auth/signup`, credentials)
       .pipe(
-        tap((a) => {
-          console.log('a', a);
-
+        tap((credentials) => {
+          if (credentials.access_token) {
+            this.access_token = credentials.access_token;
+          }
           this.signedIn$.next(true);
         })
       );
+  }
+
+  getProfile() {
+    return this.http.post(`${this.rootUrl}/profile`, {
+      name: 'john@email.com',
+    });
   }
 }

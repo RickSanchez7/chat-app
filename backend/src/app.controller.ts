@@ -34,7 +34,7 @@ export class AppController {
 
   @UseInterceptors(ValidateUserInterceptor)
   // @UseGuards(JwtAuthGuard)
-  @Get('profile')
+  @Post('profile')
   getProfile(@Request() req) {
     return req.body;
   }
